@@ -1,4 +1,4 @@
-default: docker_build_debian
+default: build-image
 
 DOCKER_IMAGE ?= padraoix/kanboard
 GIT_BRANCH ?= `git rev-parse --abbrev-ref HEAD`
@@ -10,8 +10,6 @@ else
 	DOCKER_TAG = $(GIT_BRANCH)
 endif
 
-.PHONY: archive test-sqlite test-mysql test-postgres sql \
-	build-image build-images docker-push docker-run docker-sh
 
 archive:
 	@ echo "Build archive: version=$(DOCKER_TAG)"
