@@ -20,12 +20,12 @@ jobs:
           
 
       - name: Build docker image
-        run: GIT_BRANCH=${GITHUB_REF##*/} make docker_build_images
+        run: GIT_BRANCH=${GITHUB_REF##*/} make build-image
         
       #- name: Test docker image
       #  run: GIT_BRANCH=${GITHUB_REF##*/} make test
 
       - name: Push docker image
-        run: GIT_BRANCH=${GITHUB_REF##*/} make docker_push
+        run: GIT_BRANCH=${GITHUB_REF##*/} make docker-push
 
     
