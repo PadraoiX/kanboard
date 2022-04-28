@@ -1,7 +1,6 @@
 FROM alpine:3.15.4
 
 VOLUME /var/www/app/data
-VOLUME /var/www/app/plugins
 VOLUME /etc/nginx/ssl
 
 EXPOSE 80 443
@@ -18,6 +17,7 @@ RUN apk --no-cache --update add \
     ln -s /usr/bin/php8 /usr/bin/php
 
 ADD . /var/www/app
+ADD ./plugins /var/www/app/plugins
 ADD docker/ /
 
 RUN rm -rf /var/www/app/docker && echo $VERSION > /version.txt
