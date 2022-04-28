@@ -49,7 +49,7 @@ docker-build-image:
 	docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 docker-build-images:
-	docker buildx build \
+	docker build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
 		--build-arg VERSION=master.$(DOCKER_TAG) \
