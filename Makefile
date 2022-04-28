@@ -1,13 +1,19 @@
-DOCKER_IMAGE := docker.io/kanboard/kanboard
-DOCKER_TAG := master
-VERSION := $(shell git rev-parse --short HEAD)
+DOCKER_IMAGE ?= padraoix/kanboard
+GIT_BRANCH ?= `git rev-parse --abbrev-ref HEAD`
+
+ifeq ($(GIT_BRANCH), master)
+	DOCKER_TAG = latest
+	DOCKER_TAG = $(GIT_BRANCH)
+else
+	DOCKER_TAG = $(GIT_BRANCH)
+endif
 
 .PHONY: archive test-sqlite test-mysql test-postgres sql \
 	docker-image docker-images docker-run docker-sh
 
 archive:
-	@ echo "Build archive: version=$(VERSION)"
-	@ git archive --format=zip --prefix=kanboard/ $(VERSION) -o kanboard-$(VERSION).zip
+	@ echo "Build archive: version=$(DOCKER_TAG)"
+	@ git archive --format=zip --prefix=kanboard/ $(DOCKER_TAG) -o kanboard-$(DOCKER_TAG).zip
 
 test-sqlite:
 	@ ./vendor/bin/phpunit -c tests/units.sqlite.xml
@@ -40,14 +46,14 @@ sql:
 	@ grep -v "SET idle_in_transaction_session_timeout = 0;" app/Schema/Sql/postgres.sql > temp && mv temp app/Schema/Sql/postgres.sql
 
 docker-image:
-	@ docker build --build-arg VERSION=master.$(VERSION) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	@ docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 docker-images:
 	docker buildx build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
-		--build-arg VERSION=master.$(VERSION) \
-		--tag $(DOCKER_IMAGE):$(VERSION) \
+		--build-arg VERSION=master.$(DOCKER_TAG) \
+		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		.
 
 docker-run:
