@@ -15,3 +15,36 @@ docker_build:
 docker_push:
 	# Push to DockerHub
 	docker push $(DOCKER_IMAGE):$(DOCKER_TAG)
+
+
+
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+      - 'v*'
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Docker login
+      run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+    - name: Build docker image
+      run: GIT_BRANCH=${GITHUB_REF##*/} make docker-build-image
+
+    #- name: Test docker image
+    #  run: GIT_BRANCH=${GITHUB_REF##*/} make test
+
+    - name: Push docker image for Debian
+      run: GIT_BRANCH=${GITHUB_REF##*/} make docker-push
+
+    
