@@ -15,13 +15,13 @@ archive:
 	@ echo "Build archive: version=$(DOCKER_TAG)"
 	@ git archive --format=zip --prefix=kanboard/ $(DOCKER_TAG) -o kanboard-$(DOCKER_TAG).zip
 
-test-sqlite:
+test_sqlite:
 	@ ./vendor/bin/phpunit -c tests/units.sqlite.xml
 
-test-mysql:
+test_mysql:
 	@ ./vendor/bin/phpunit -c tests/units.mysql.xml
 
-test-postgres:
+test_postgres:
 	@ ./vendor/bin/phpunit -c tests/units.postgres.xml
 
 sql:
@@ -45,10 +45,10 @@ sql:
 
 	@ grep -v "SET idle_in_transaction_session_timeout = 0;" app/Schema/Sql/postgres.sql > temp && mv temp app/Schema/Sql/postgres.sql
 
-docker-build-image:
+docker_build_image:
 	docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
-docker-build-images:
+docker_build_images:
 	docker build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
@@ -56,11 +56,11 @@ docker-build-images:
 		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		.
 
-docker-push:
+docker_push:
 	docker push $(DOCKER_IMAGE):$(DOCKER_TAG)
 
-docker-run:
+docker_run:
 	@ docker run --rm --name=kanboard -p 80:80 -p 443:443 $(DOCKER_IMAGE):$(DOCKER_TAG)
 
-docker-sh:
+docker_sh:
 	@ docker exec -ti kanboard bash
