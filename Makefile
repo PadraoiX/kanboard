@@ -11,7 +11,7 @@ else
 endif
 
 .PHONY: archive test-sqlite test-mysql test-postgres sql \
-	docker-image docker-images docker-run docker-sh
+	build-image build-images docker-push docker-run docker-sh
 
 archive:
 	@ echo "Build archive: version=$(DOCKER_TAG)"
