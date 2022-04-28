@@ -20,7 +20,7 @@ jobs:
           
 
       - name: Build docker image
-        run: GIT_BRANCH=${GITHUB_REF##*/} make docker-build-image
+        run: GIT_BRANCH=${GITHUB_REF##*/} make docker-build-images
 
       #- name: Test docker image
       #  run: GIT_BRANCH=${GITHUB_REF##*/} make test
