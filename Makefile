@@ -45,16 +45,19 @@ sql:
 
 	@ grep -v "SET idle_in_transaction_session_timeout = 0;" app/Schema/Sql/postgres.sql > temp && mv temp app/Schema/Sql/postgres.sql
 
-docker-image:
+docker-build-image:
 	@ docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
-docker-images:
+docker-build-images:
 	docker buildx build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
 		--build-arg VERSION=master.$(DOCKER_TAG) \
 		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		.
+
+docker-push:
+	docker push $(DOCKER_IMAGE):$(DOCKER_TAG)
 
 docker-run:
 	@ docker run --rm --name=kanboard -p 80:80 -p 443:443 $(DOCKER_IMAGE):$(DOCKER_TAG)
