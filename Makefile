@@ -5,7 +5,6 @@ GIT_BRANCH ?= `git rev-parse --abbrev-ref HEAD`
 
 ifeq ($(GIT_BRANCH), master)
 	DOCKER_TAG = latest
-	DOCKER_TAG = $(GIT_BRANCH)
 else
 	DOCKER_TAG = $(GIT_BRANCH)
 endif
