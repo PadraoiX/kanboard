@@ -17,7 +17,6 @@ RUN apk --no-cache --update add \
     ln -s /usr/bin/php8 /usr/bin/php
 
 ADD . /var/www/app
-ADD ./plugins /var/www/app/plugins
 ADD docker/ /
 
 RUN rm -rf /var/www/app/docker && echo $VERSION > /version.txt
