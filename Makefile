@@ -2,6 +2,7 @@ default: build-image
 
 DOCKER_IMAGE ?= padraoix/kanboard
 GIT_BRANCH ?= `git rev-parse --abbrev-ref HEAD`
+VERSION = '1.0.37'
 
 ifeq ($(GIT_BRANCH), master)
 	DOCKER_TAG = latest
@@ -11,7 +12,7 @@ endif
 
 
 archive:
-	@ echo "Build archive: version=$(DOCKER_TAG)"
+	@ echo "Build archive: version=$(VERSION)"
 	@ git archive --format=zip --prefix=kanboard/ $(DOCKER_TAG) -o kanboard-$(DOCKER_TAG).zip
 
 test-sqlite:
@@ -45,13 +46,13 @@ sql:
 	@ grep -v "SET idle_in_transaction_session_timeout = 0;" app/Schema/Sql/postgres.sql > temp && mv temp app/Schema/Sql/postgres.sql
 
 build-image:
-	docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	docker build --build-arg VERSION=$(VERSION) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 build-images:
 	docker build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
-		--build-arg VERSION=master.$(DOCKER_TAG) \
+		--build-arg VERSION=master.$(VERSION) \
 		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		.
 
