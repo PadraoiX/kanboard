@@ -1,3 +1,5 @@
+default: docker_build_debian
+
 DOCKER_IMAGE ?= padraoix/kanboard
 GIT_BRANCH ?= `git rev-parse --abbrev-ref HEAD`
 
@@ -15,13 +17,13 @@ archive:
 	@ echo "Build archive: version=$(DOCKER_TAG)"
 	@ git archive --format=zip --prefix=kanboard/ $(DOCKER_TAG) -o kanboard-$(DOCKER_TAG).zip
 
-test_sqlite:
+test-sqlite:
 	@ ./vendor/bin/phpunit -c tests/units.sqlite.xml
 
-test_mysql:
+test-mysql:
 	@ ./vendor/bin/phpunit -c tests/units.mysql.xml
 
-test_postgres:
+test-postgres:
 	@ ./vendor/bin/phpunit -c tests/units.postgres.xml
 
 sql:
@@ -45,10 +47,10 @@ sql:
 
 	@ grep -v "SET idle_in_transaction_session_timeout = 0;" app/Schema/Sql/postgres.sql > temp && mv temp app/Schema/Sql/postgres.sql
 
-docker_build_image:
+build-image:
 	docker build --build-arg VERSION=$(DOCKER_TAG) -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
-docker_build_images:
+build-images:
 	docker build \
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 \
 		--file Dockerfile \
@@ -56,11 +58,11 @@ docker_build_images:
 		--tag $(DOCKER_IMAGE):$(DOCKER_TAG) \
 		.
 
-docker_push:
+docker-push:
 	docker push $(DOCKER_IMAGE):$(DOCKER_TAG)
 
-docker_run:
+docker-run:
 	@ docker run --rm --name=kanboard -p 80:80 -p 443:443 $(DOCKER_IMAGE):$(DOCKER_TAG)
 
-docker_sh:
+docker-sh:
 	@ docker exec -ti kanboard bash
