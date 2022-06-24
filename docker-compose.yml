@@ -1,7 +1,9 @@
 version: '2'
 services:
   kanboard:
-    image: padraoix/kanboard:latest
+    #image: padraoix/kanboard:latest
+    build:
+      context: .
     ports:
      - "80:80"
      - "443:443"
