@@ -32,6 +32,27 @@ body{
     padding: 0;
 }
 
+/* logo */
+
+span.logo{
+    background-image: url(./img/logo-ico-white.png);
+    width: 60px;
+    height: 27px;
+    display: inline-block;
+    /* float: left; */
+    background-size: 100% 100%;
+}
+
+span.logo a, span.logo a:hover {
+    color: transparent!important;
+    opacity: 0!important;     
+}
+
+span.logo a span, span.logo a span:hover {
+    color: transparent;
+    opacity: 0!important; 
+}
+
 /* header */
 
 header{
@@ -45,6 +66,8 @@ header{
 header h1 {
     font-size: 1.2em;
     font-weight: 700;
+    line-height: 26px;
+    
 }
 
 .title-container .fa-info-circle{
