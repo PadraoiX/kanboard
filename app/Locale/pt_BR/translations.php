@@ -1422,7 +1422,7 @@ return array(
     'Collapse vertically' => 'Contrair verticalmente',
     'Expand vertically' => 'Expandir verticalmente',
     'MXN - Mexican Peso' => 'Peso mexicano',
-    // 'Estimated vs actual time per column' => '',
+    'Estimated vs actual time per column' => 'Tempo estimando vs tempo atual por coluna',
     // 'HUF - Hungarian Forint' => '',
     'XBT - Bitcoin' => 'XBT - Bitcoin',
     // 'You must select a file to upload as your avatar!' => '',

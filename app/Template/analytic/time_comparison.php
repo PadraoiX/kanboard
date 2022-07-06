@@ -1,6 +1,6 @@
 <?php if (! $is_ajax): ?>
     <div class="page-header">
-        <h2><?= t('Estimated vs actual time') ?></h2>
+        <h2>Tempo estimado vs tempo real</h2>
     </div>
 <?php endif ?>
 
